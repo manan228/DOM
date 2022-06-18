@@ -66,6 +66,10 @@ function displayData(data) {
 
     deleteButton(li, data)    // Initializing of delete button
     
+    const editBtn = document.createElement(`button`)
+    editBtn.innerHTML = `Edit`
+    li.appendChild(editBtn)
+
     // Append to ul
     userList.appendChild(li);
 }
