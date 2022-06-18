@@ -5,13 +5,19 @@ const emailInput = document.querySelector('#email');
 const msg = document.querySelector('.msg');
 const userList = document.querySelector('#users');
 
+let userDetail;
+
+// Retreving and displaying data stored in local storage
+Object.keys(localStorage).forEach(key => {
+
+    userDetail = JSON.parse(localStorage.getItem(key))
+    console.log(userDetail);
+
+    displayData(userDetail)     // Displaying data at frontend
+})
+
 // Listen for form submit
 myForm.addEventListener('submit', onSubmit);
-
-// Retriving data from local storage
-const dataFromLocalStorage = JSON.parse(localStorage.getItem(`data`));
-
-displayData(dataFromLocalStorage);  // Displaying data at frontend
 
 function onSubmit(e) {
   e.preventDefault();
@@ -26,15 +32,15 @@ function onSubmit(e) {
   } else {
 
     // Conerting data to object
-    const data = {
+    const obj = {
         name: nameInput.value,
         email: emailInput.value
     }
 
     // Storing data(name, email) into local strage
-    localStorage.setItem(`data`, JSON.stringify(data));
+    localStorage.setItem(`obj ${nameInput.value}`, JSON.stringify(obj));
     
-    displayData(data) // Displaying data at frontend
+    displayData(obj) // Displaying data at frontend
 
     // Clear fields
     nameInput.value = '';
