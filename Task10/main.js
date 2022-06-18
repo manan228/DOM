@@ -11,7 +11,6 @@ let userDetail;
 Object.keys(localStorage).forEach(key => {
 
     userDetail = JSON.parse(localStorage.getItem(key))
-    console.log(userDetail);
 
     displayData(userDetail)     // Displaying data at frontend
 })
@@ -37,10 +36,10 @@ function onSubmit(e) {
         email: emailInput.value
     }
 
-    // Storing data(name, email) into local strage
-    localStorage.setItem(`obj ${nameInput.value}`, JSON.stringify(obj));
-    
     displayData(obj) // Displaying data at frontend
+
+    // Storing data(name, email) into local strage
+    localStorage.setItem(`${nameInput.value}`, JSON.stringify(obj));
 
     // Clear fields
     nameInput.value = '';
@@ -48,16 +47,43 @@ function onSubmit(e) {
   }
 }
 
-// Displaying stored data in frontend
+// Displaying user list, stored data in frontend
 function displayData(data) {
 
-    console.log(data)
+    // if(localStorage.getItem(data.name) !== null) {
+
+    //     onClickDeleteButton(data.name)
+    // }
+
     // Create new list item with user
     const li = document.createElement('li');
+
+    // Adding id of list
+    li.id = data.name;
 
     // Add text node with input values
     li.appendChild(document.createTextNode(`${data.name}: ${data.email}`));
 
+    deleteButton(li, data)    // Initializing of delete button
+    
     // Append to ul
     userList.appendChild(li);
+}
+
+// Creating and appending delete button to user list
+function deleteButton(li, {name}) {
+
+    const deleteBtn = document.createElement(`button`)
+    deleteBtn.innerHTML = `Delete`
+    li.appendChild(deleteBtn)
+
+    deleteBtn.addEventListener(`click`, (e) => onClickDeleteButton(e, name));
+}
+
+function onClickDeleteButton(e,name) {
+
+    const childNodeToBeDeleted = document.getElementById(name)
+
+    childNodeToBeDeleted.remove()
+    localStorage.removeItem(name)
 }
